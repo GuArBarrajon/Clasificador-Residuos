@@ -306,10 +306,17 @@ def cargar_sistema():
 
 @st.cache_data
 def cargar_puntos_verdes():
-    """Intenta cargar el dataset de Puntos Verdes de CABA."""
-    URL = "https://cdn.buenosaires.gob.ar/datosabiertos/datasets/ministerio-de-espacio-publico-e-higiene-urbana/puntos-verdes/puntos-verdes.csv"
+    """Carga los Puntos Verdes desde el CSV local en data/puntos_verdes.csv."""
+    ruta = os.path.join(DATA_PATH, "puntos_verdes.csv")
     try:
-        df = pd.read_csv(URL, encoding="utf-8")
+        df = pd.read_csv(ruta, encoding="utf-8")
+
+        if "geometry" in df.columns:
+            geom = df["geometry"].astype(str).str.extract(r"POINT\s*\(\s*([-0-9\.]+)\s+([-0-9\.]+)\s*\)")
+            if geom.shape[1] == 2:
+                df["long"] = geom[0].astype(float)
+                df["lat"] = geom[1].astype(float)
+
         return df
     except Exception:
         # Fallback con datos de ejemplo
@@ -491,7 +498,7 @@ with st.sidebar:
         • keywords.csv<br>
         • reglas.csv<br>
         • ambiguos.csv<br>
-        • Puntos Verdes CABA (GCBA)
+        • puntos_verdes.csv (local)
     </div>
     """, unsafe_allow_html=True)
 
@@ -678,4 +685,4 @@ with tab3:
             st.error("No se pudieron obtener los Puntos Verdes. Verificá tu conexión.")
 
     st.markdown("---")
-    st.caption("Datos: [Portal de Datos Abiertos de CABA](https://data.buenosaires.gob.ar/dataset/puntos-verdes)")
+    st.caption("Datos: cargados desde el archivo local data/puntos_verdes.csv")
