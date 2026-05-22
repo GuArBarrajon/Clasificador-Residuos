@@ -43,18 +43,21 @@ section[data-testid="stSidebar"] {
 /* Título principal */
 .titulo-principal {
     font-family: 'Space Mono', monospace;
-    font-size: 2.4rem;
+    font-size: 2.8rem;
     font-weight: 700;
     color: #69f0ae;
     letter-spacing: -1px;
     margin-bottom: 0;
     line-height: 1.1;
+    text-align: center;
 }
 .subtitulo {
-    font-size: 1rem;
+    font-size: 1.5rem;
     color: #81c784;
-    margin-top: 4px;
+    margin-top: 16px;
+    padding: 0.5rem;
     font-weight: 300;
+    text-align: center;
 }
 
 /* Cards de resultado */
@@ -243,15 +246,20 @@ section[data-testid="stSidebar"] {
     color: #e8f5e9 !important;
 }
 /* Tabs */
+[data-testid="stTabs"] {
+    width: 100% !important;
+}
 .stTabs [data-baseweb="tab-list"] {
     background: #1a2e1a;
     border-radius: 8px;
     padding: 4px;
     gap: 4px;
+    width: 100% !important;
 }
 .stTabs [data-baseweb="tab"] {
     color: #81c784 !important;
     border-radius: 6px !important;
+    flex: 1 !important;
 }
 .stTabs [aria-selected="true"] {
     background: #69f0ae !important;
@@ -588,11 +596,11 @@ def mostrar_resultado(regla: dict, tipo: str):
 with st.sidebar:
     st.markdown("""
     <div style="padding: 1rem 0;">
-        <div style="font-family:'Space Mono',monospace; font-size:1.1rem; color:#69f0ae; font-weight:700;">
+        <div style="font-family:'Space Mono',monospace; font-size:1.6rem; color:#69f0ae; font-weight:700;">
             ♻️ Clasificador
         </div>
         <div style="font-size:0.8rem; color:#81c784; margin-top:4px;">
-            Sistema Experto · Análisis de Datos II
+            Sistema Experto · Análisis de Datos II · GRUPO A
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -615,7 +623,7 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("""
-    <div style="font-size:0.75rem; color:#4caf50; line-height:1.6;">
+    <div style="font-size:1rem; color:#4caf50; line-height:1.6;">
         <b>Motores:</b><br>
         • experta (KnowledgeEngine)<br>
         • Forward Chaining<br>
@@ -635,7 +643,7 @@ with st.sidebar:
 
 st.markdown("""
 <div style="padding: 1.5rem 0 1rem 0;">
-    <div class="titulo-principal">Clasificador de<br>Residuos ♻️</div>
+    <div class="titulo-principal">Clasificador de Residuos ♻️</div>
     <div class="subtitulo">Sistema Experto basado en reglas · Análisis de Datos II</div>
 </div>
 """, unsafe_allow_html=True)
