@@ -4,6 +4,7 @@ Sistema Experto — Análisis de Datos II
 """
 
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import math
 import os
@@ -421,17 +422,141 @@ def color_urgencia(urgencia: str) -> str:
 
 def mostrar_resultado(regla: dict, tipo: str):
     """Renderiza la card de resultado."""
-    pasos_html = "".join([
-        f'<div class="paso"><div class="paso-num">{i+1}</div><div>{p}</div></div>'
-        for i, p in enumerate(regla.get("instrucciones", []))
-    ])
-    errores_html = "".join([
-        f'<div class="error-item">{e}</div>'
-        for e in regla.get("errores_comunes", [])
-    ])
+    pasos = regla.get("instrucciones", [])
+    errores = regla.get("errores_comunes", [])
     clase_urg = color_urgencia(regla.get("urgencia", ""))
 
-    st.markdown(f"""
+    pasos_html = "".join(
+        f'<div class="paso"><div class="paso-num">{i+1}</div><div>{p}</div></div>'
+        for i, p in enumerate(pasos)
+    )
+    errores_html = "".join(f'<div class="error-item">{e}</div>' for e in errores)
+
+    html = f"""
+    <style>
+    body {{
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        color: #e8f5e9;
+        font-family: 'DM Sans', sans-serif;
+    }}
+    .card-resultado {{
+        background: linear-gradient(135deg, #1b2e1b 0%, #162816 100%);
+        border: 1px solid #2e4a2e;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-top: 1rem;
+        width: 100%;
+    }}
+    .card-categoria {{
+        font-family: 'Space Mono', monospace;
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+    }}
+    .card-sub {{
+        color: #81c784;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }}
+    .card-contenedor {{
+        background: #0d1f0d;
+        border-left: 3px solid #69f0ae;
+        padding: 0.6rem 1rem;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+    }}
+    .urgencia-alta {{
+        background: #3e1a1a;
+        border: 1px solid #ef5350;
+        color: #ef9a9a;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        display: inline-block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }}
+    .urgencia-media {{
+        background: #3e2e1a;
+        border: 1px solid #ffa726;
+        color: #ffcc80;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        display: inline-block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }}
+    .urgencia-baja {{
+        background: #1a2e1a;
+        border: 1px solid #66bb6a;
+        color: #a5d6a7;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        display: inline-block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }}
+    .paso {{
+        display: flex;
+        gap: 0.8rem;
+        margin-bottom: 0.5rem;
+        align-items: flex-start;
+        font-size: 0.95rem;
+    }}
+    .paso-num {{
+        background: #69f0ae;
+        color: #0f1a0f;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.75rem;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }}
+    .error-item {{
+        color: #ef9a9a;
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+    }}
+    .impacto-box {{
+        background: #0d2218;
+        border: 1px solid #2e7d32;
+        border-radius: 8px;
+        padding: 0.8rem 1rem;
+        color: #a5d6a7;
+        font-size: 0.95rem;
+        margin-top: 1rem;
+        font-style: italic;
+    }}
+    .seccion-titulo {{
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+        color: #4caf50;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
+    }}
+    .disclaimer {{
+        background: #1a1a0d;
+        border: 1px solid #827717;
+        border-radius: 8px;
+        padding: 0.7rem 1rem;
+        color: #fff176;
+        font-size: 0.88rem;
+        margin-top: 1.5rem;
+    }}
+    </style>
+
     <div class="card-resultado">
         <div class="card-categoria">{regla.get('categoria', '—')}</div>
         <div class="card-sub">{regla.get('subcategoria', '—')} · tipo: <code>{tipo}</code></div>
@@ -446,13 +571,14 @@ def mostrar_resultado(regla: dict, tipo: str):
 
         <div class="impacto-box">🌍 {regla.get('impacto', '—')}</div>
     </div>
-    """, unsafe_allow_html=True)
 
-    st.markdown("""
     <div class="disclaimer">
     ⚠️ Este sistema es orientativo y educativo. Para dudas específicas consultá en tu municipio o Punto Verde más cercano.
     </div>
-    """, unsafe_allow_html=True)
+    """
+
+    height = 240 + 40 * max(len(pasos), len(errores))
+    components.html(html, height=min(height, 820), scrolling=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
