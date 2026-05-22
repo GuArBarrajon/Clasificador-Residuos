@@ -13,7 +13,7 @@ import re
 
 # ── Configuración de página ───────────────────────────────────────────────────
 st.set_page_config(
-    page_title="♻️ Clasificador de Residuos",
+    page_title="Clasificador de Residuos",
     page_icon="♻️",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -45,7 +45,7 @@ section[data-testid="stSidebar"] {
     font-family: 'Space Mono', monospace;
     font-size: 2.8rem;
     font-weight: 700;
-    color: #69f0ae;
+    color: #88bda3;
     letter-spacing: -1px;
     margin-bottom: 0;
     line-height: 1.1;
@@ -211,13 +211,13 @@ section[data-testid="stSidebar"] {
 }
 /* Botones */
 .stButton button {
-    background: #69f0ae !important;
+    background: #88bda3 !important;
     color: #0f1a0f !important;
     border: none !important;
     border-radius: 8px !important;
-    font-weight: 600 !important;
+    font-weight: 900 !important;
     font-family: 'DM Sans', sans-serif !important;
-    transition: all 0.2s !important;
+    transition: all 0.5s !important;
 }
 .stButton button:hover {
     background: #40c4a0 !important;
@@ -262,7 +262,7 @@ section[data-testid="stSidebar"] {
     flex: 1 !important;
 }
 .stTabs [aria-selected="true"] {
-    background: #69f0ae !important;
+    background: #88bda3 !important;
     color: #0f1a0f !important;
     font-weight: 600 !important;
 }
@@ -455,17 +455,18 @@ def mostrar_resultado(regla: dict, tipo: str):
         border-radius: 12px;
         padding: 1.5rem;
         margin-top: 1rem;
-        width: 100%;
+        width: 95%;
+        overflow-y: none;
     }}
     .card-categoria {{
         font-family: 'Space Mono', monospace;
-        font-size: 1.4rem;
+        font-size: 1.8rem;
         font-weight: 700;
         margin-bottom: 0.3rem;
     }}
     .card-sub {{
         color: #81c784;
-        font-size: 0.9rem;
+        font-size: 1rem;
         margin-bottom: 1rem;
     }}
     .card-contenedor {{
@@ -547,7 +548,7 @@ def mostrar_resultado(regla: dict, tipo: str):
     }}
     .seccion-titulo {{
         font-family: 'Space Mono', monospace;
-        font-size: 0.75rem;
+        font-size: 1.3rem;
         color: #4caf50;
         letter-spacing: 2px;
         text-transform: uppercase;
@@ -560,8 +561,10 @@ def mostrar_resultado(regla: dict, tipo: str):
         border-radius: 8px;
         padding: 0.7rem 1rem;
         color: #fff176;
-        font-size: 0.88rem;
+        font-size: 1rem;
         margin-top: 1.5rem;
+        text-align: center;
+        width: 96%;
     }}
     </style>
 
